@@ -1,3 +1,7 @@
+"""
+pcの価格計算
+"""
+
 parts = {}
 
 parts['cpu'] = ('Core i5 10400', 20480)
@@ -19,10 +23,10 @@ parts['hdd'] = ('5TB 7200rpm', 8800) # 東芝製
 parts['sata_cable'] = ('sataケーブル3本セット', 1000)
 parts['os'] = ('Windows10 Home', 17527) # 通常版
 
-total = 0
+# total = 0
 
-for key, val in parts.items():
-    total += val[1]
-    print(key + ':' + val[0] + ' ' + '{:,d}'.format(val[1]) + '円')
+# for key, val in parts.items():
+#     total += val[1]
+#     print(key + ':' + val[0] + ' ' + '{:,d}'.format(val[1]) + '円')
 
-print('合計価格:' + '{:,d}'.format(total) + '円')
+# print('合計価格:' + '{:,d}'.format(total) + '円')
