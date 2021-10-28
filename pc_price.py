@@ -19,10 +19,10 @@ parts['hdd'] = ('5TB 7200rpm', 8800) # 東芝製
 parts['sata_cable'] = ('sataケーブル3本セット', 1000)
 parts['os'] = ('Windows10 Home', 17527) # 通常版
 
-sum = 0
+total = 0
 
 for key, val in parts.items():
-    sum += val[1]
+    total += val[1]
     print(key + ':' + val[0] + ' ' + '{:,d}'.format(val[1]) + '円')
 
-print('合計価格:' + '{:,d}'.format(sum) + '円')
+print('合計価格:' + '{:,d}'.format(total) + '円')
