@@ -8,4 +8,4 @@ github actionsの練習
 1. gameCI つかってみる。
     1. ライセンスのアクティベーション
 
-[![Pylint](https://github.com/nssuperx/actions-practice/actions/workflows/pylint.yml/badge.svg?branch=main)](https://github.com/nssuperx/actions-practice/actions/workflows/pylint.yml)
+[![Test project](https://github.com/nssuperx/actions-practice/actions/workflows/gameci-main.yml/badge.svg)](https://github.com/nssuperx/actions-practice/actions/workflows/gameci-main.yml)
