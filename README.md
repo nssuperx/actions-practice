@@ -9,3 +9,6 @@ github actionsの練習
     1. ライセンスのアクティベーション
 
 [![Test project](https://github.com/nssuperx/actions-practice/actions/workflows/gameci-main.yml/badge.svg)](https://github.com/nssuperx/actions-practice/actions/workflows/gameci-main.yml)
+
+# 参考
+[GitHub ActionsでUnityでunitypackage生成とビルド＆実機(Linux)ユニットテストを実行する - neuecc blog](http://neue.cc/2020/04/22_591.html)
