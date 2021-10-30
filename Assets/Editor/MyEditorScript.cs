@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using UnityEditor;
+using UnityEditor.Build.Reporting;
+
 class MyEditorScript
 {
     static void PerformBuild()
@@ -15,7 +17,7 @@ class MyEditorScript
 
         BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
         buildPlayerOptions.scenes = scenePaths.ToArray();
-        buildPlayerOptions.locationPathName = "yourLocationNameHere";
+        buildPlayerOptions.locationPathName = "WebGLBuild";
         buildPlayerOptions.target = BuildTarget.WebGL;
         buildPlayerOptions.options = BuildOptions.None; // set whatever you want here
         BuildPipeline.BuildPlayer(buildPlayerOptions);  // apply the setting changes

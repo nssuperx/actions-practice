@@ -1,6 +1,9 @@
 name: Build project
 
-on: [push, pull_request]
+on: 
+  push:
+    branches:
+      - main
 
 env:
   cache-version: v1.0
@@ -20,7 +23,7 @@ jobs:
       image: unityci/editor:ubuntu-${{ matrix.unity }}-webgl-0.15.0
     steps:
       - run: apt update
-      - run: apt install software-properties-common -y
+      - run: apt install software-properties-common rsync -y
       - run: add-apt-repository ppa:git-core/ppa
       - run: apt install git -y
       - uses: actions/checkout@v2
@@ -49,12 +52,14 @@ jobs:
           scp -i .ssh_key -P ${{ secrets.SSH_PORT }} -o "StrictHostKeyChecking=no" ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:~/${{ secrets.UNITYPACKAGE_FILEPATH }} ./
       - name: Import unitypackage
         run: /opt/unity/Editor/Unity -quit -batchmode -nographics -silent-crashes -projectPath . -importPackage ${{ secrets.UNITYPACKAGE_FILEPATH }}
-      - uses: game-ci/unity-builder@v2
-        env:
-          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
-        with:
-          targetPlatform: ${{ matrix.targetPlatform }}
+      - name: Build
+        run: /opt/unity/Editor/Unity -quit -batchmode -nographics -silent-crashes -projectPath . -executeMethod MyEditorScript.PerformBuild
       - uses: actions/upload-artifact@v2
         with:
           name: Build-${{ matrix.targetPlatform }}
-          path: build/${{ matrix.targetPlatform }}
+          path: ./WebGLBuild
+      - name: Deploy to github pages
+        uses: JamesIves/github-pages-deploy-action@4.1.5
+        with:
+          branch: gh-pages
+          folder: ./WebGLBuild
