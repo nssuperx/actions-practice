@@ -9,11 +9,15 @@ jobs:
   buildForAllSupportedPlatforms:
     name: Build for ${{ matrix.targetPlatform }}
     runs-on: ubuntu-latest
+    container:
+      image: unityci/editor:ubuntu-2021.1.22f1-webgl-0.15.0
     strategy:
       fail-fast: false
       matrix:
         targetPlatform:
           - WebGL # WebGL.
+    steps:
+      - run: apt update && apt install git -y
     steps:
       - uses: actions/checkout@v2
         with:
@@ -24,6 +28,16 @@ jobs:
           path: Library
           key: Library-${{ matrix.targetPlatform }}-${{ env.cache-version }}
           restore-keys: Library-
+      - run: echo -n "$UNITY_LICENSE" >> .Unity.ulf
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+      - name: activate unity license
+        run: /opt/unity/Editor/Unity -quit -batchmode -nographics -silent-crashes -manualLicenseFile .Unity.ulf
+      # TODO: tmp.unitypackageをどこかからひっぱる, projectpath がどこにあるか確認
+      - name: Download unitypackage
+        run: scp -i ${{ secrets.SSH_KEY }} -P ${{ secrets.SSH_PORT }} ${{ secrets.SSH_HOST_IP }}:/~${{ secrets.UNITYPACKAGE_FILEPATH }} ./
+      - name: Import unitypackage
+        run: /opt/unity/Editor/Unity -quit -batchmode -nographics -silent-crashes -projectPath . -importPackage ${{ secrets.UNITYPACKAGE_FILEPATH }
       - uses: game-ci/unity-builder@v2
         env:
           UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
