@@ -2,6 +2,9 @@ name: Build project
 
 on: [push, pull_request]
 
+env:
+  cache-version: v1.0
+
 jobs:
   buildForAllSupportedPlatforms:
     name: Build for ${{ matrix.targetPlatform }}
@@ -19,7 +22,7 @@ jobs:
       - uses: actions/cache@v2
         with:
           path: Library
-          key: Library-${{ matrix.targetPlatform }}
+          key: Library-${{ matrix.targetPlatform }}-${{ env.cache-version }}
           restore-keys: Library-
       - uses: game-ci/unity-builder@v2
         env:
