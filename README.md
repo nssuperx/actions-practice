@@ -1,7 +1,9 @@
 # actions-practice
-[![Build project](https://github.com/nssuperx/actions-practice/actions/workflows/gameci-build.yml/badge.svg)](https://github.com/nssuperx/actions-practice/actions/workflows/gameci-build.yml)
+[![Build project](https://github.com/nssuperx/actions-practice/actions/workflows/unity-build.yml/badge.svg)](https://github.com/nssuperx/actions-practice/actions/workflows/unity-build.yml)
 
 github actionsの練習
+
+[github pages](https://nssuperx.github.io/actions-practice/)
 
 ## やったこと
 1. pull request出してみて、それで走るか確認。（on: [push]を確認）
