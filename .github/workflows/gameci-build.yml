@@ -23,7 +23,7 @@ jobs:
       image: unityci/editor:ubuntu-${{ matrix.unity }}-webgl-0.15.0
     steps:
       - run: apt update
-      - run: apt install software-properties-common -y
+      - run: apt install software-properties-common rsync -y
       - run: add-apt-repository ppa:git-core/ppa
       - run: apt install git -y
       - uses: actions/checkout@v2
