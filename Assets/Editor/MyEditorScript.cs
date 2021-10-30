@@ -20,6 +20,14 @@ class MyEditorScript
         buildPlayerOptions.locationPathName = "WebGLBuild";
         buildPlayerOptions.target = BuildTarget.WebGL;
         buildPlayerOptions.options = BuildOptions.None; // set whatever you want here
-        BuildPipeline.BuildPlayer(buildPlayerOptions);  // apply the setting changes
+        BuildReport report = BuildPipeline.BuildPlayer(buildPlayerOptions);  // apply the setting changes
+        BuildSummary summary = report.summary;
+
+        if (summary.result == BuildResult.Succeeded)
+        {
+            Debug.Log("Build succeeded: " + summary.totalSize + " bytes");
+        }else if(summary.result == BuildResult.Failed){
+            Debug.Log("Build failed");
+        }
     }
 }
