@@ -9,15 +9,20 @@ jobs:
   buildForAllSupportedPlatforms:
     name: Build for ${{ matrix.targetPlatform }}
     runs-on: ubuntu-latest
-    container:
-      image: unityci/editor:ubuntu-2021.1.22f1-webgl-0.15.0
     strategy:
       fail-fast: false
       matrix:
         targetPlatform:
           - WebGL # WebGL.
+        unity: 
+          - 2021.1.22f1
+    container:
+      image: unityci/editor:ubuntu-${{ matrix.unity }}-webgl-0.15.0
     steps:
-      - run: apt update && apt install git -y
+      - run: apt update
+      - run: apt install software-properties-common -y
+      - run: add-apt-repository ppa:git-core/ppa
+      - run: apt install git -y
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
@@ -27,14 +32,21 @@ jobs:
           path: Library
           key: Library-${{ matrix.targetPlatform }}-${{ env.cache-version }}
           restore-keys: Library-
-      - run: echo -n "$UNITY_LICENSE" >> .Unity.ulf
+      - run: /opt/unity/Editor/Unity -quit -batchmode -nographics -logFile -createManualActivationFile || exit 0
+      - uses: actions/upload-artifact@v1
+        with:
+          name: Unity_v${{ matrix.unity }}.alf
+          path: ./Unity_v${{ matrix.unity }}.alf
+      - run: echo -n "$UNITY_LICENSE_2" >> .Unity.ulf
         env:
-          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+          UNITY_LICENSE_2: ${{ secrets.UNITY_LICENSE_2 }}
       - name: activate unity license
-        run: /opt/unity/Editor/Unity -quit -batchmode -nographics -silent-crashes -manualLicenseFile .Unity.ulf
+        run: /opt/unity/Editor/Unity -quit -batchmode -nographics -silent-crashes -logFile -manualLicenseFile .Unity.ulf || exit 0
       # TODO: tmp.unitypackageをどこかからひっぱる, projectpath がどこにあるか確認
       - name: Download unitypackage
-        run: scp -i ${{ secrets.SSH_KEY }} -P ${{ secrets.SSH_PORT }} ${{ secrets.SSH_HOST_IP }}:/~${{ secrets.UNITYPACKAGE_FILEPATH }} ./
+        run: |
+          echo -n "${{ secrets.SSH_KEY }}" >> .ssh_key
+          scp -i .ssh_key -P ${{ secrets.SSH_PORT }} ${{ secrets.SSH_HOST_IP }}:/~${{ secrets.UNITYPACKAGE_FILEPATH }} ./
       - name: Import unitypackage
         run: /opt/unity/Editor/Unity -quit -batchmode -nographics -silent-crashes -projectPath . -importPackage ${{ secrets.UNITYPACKAGE_FILEPATH }}
       - uses: game-ci/unity-builder@v2
