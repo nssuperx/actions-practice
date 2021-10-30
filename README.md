@@ -9,6 +9,8 @@ github actionsの練習
     1. ライセンスのアクティベーション
 1. scp使って、OCIにたてたインスタンスからファイルをコピーしてくる(unitypackage)
 1. unity cliを使ってunitypackageをインポート
+1. ビルド
+    1. ビルド実行スクリプトは`Assets/Editor`以下に配置
 
 [![Test project](https://github.com/nssuperx/actions-practice/actions/workflows/gameci-main.yml/badge.svg)](https://github.com/nssuperx/actions-practice/actions/workflows/gameci-main.yml)
 
