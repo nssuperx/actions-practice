@@ -17,3 +17,11 @@ github actionsの練習
 
 # 参考
 [GitHub ActionsでUnityでunitypackage生成とビルド＆実機(Linux)ユニットテストを実行する - neuecc blog](http://neue.cc/2020/04/22_591.html)
+
+## ドキュメント
+* [GitHub Actionsのドキュメント](https://docs.github.com/ja/actions)
+* [コンテキスト](https://docs.github.com/ja/actions/learn-github-actions/contexts)
+    * `github.workspace`, `job.status` とか `${{ <context> }}` として使うもの
+* [GitHub Actionsのワークフロー構文](https://docs.github.com/ja/actions/learn-github-actions/workflow-syntax-for-github-actions)
+    * `on`, `jobs`, `env` とか
+* [環境変数](https://docs.github.com/ja/actions/learn-github-actions/environment-variables)
