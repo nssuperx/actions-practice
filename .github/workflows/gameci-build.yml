@@ -18,7 +18,6 @@ jobs:
           - WebGL # WebGL.
     steps:
       - run: apt update && apt install git -y
-    steps:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
@@ -37,7 +36,7 @@ jobs:
       - name: Download unitypackage
         run: scp -i ${{ secrets.SSH_KEY }} -P ${{ secrets.SSH_PORT }} ${{ secrets.SSH_HOST_IP }}:/~${{ secrets.UNITYPACKAGE_FILEPATH }} ./
       - name: Import unitypackage
-        run: /opt/unity/Editor/Unity -quit -batchmode -nographics -silent-crashes -projectPath . -importPackage ${{ secrets.UNITYPACKAGE_FILEPATH }
+        run: /opt/unity/Editor/Unity -quit -batchmode -nographics -silent-crashes -projectPath . -importPackage ${{ secrets.UNITYPACKAGE_FILEPATH }}
       - uses: game-ci/unity-builder@v2
         env:
           UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
