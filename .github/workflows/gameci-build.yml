@@ -42,14 +42,13 @@ jobs:
           UNITY_LICENSE_2: ${{ secrets.UNITY_LICENSE_2 }}
       - name: activate unity license
         run: /opt/unity/Editor/Unity -quit -batchmode -nographics -silent-crashes -logFile -manualLicenseFile .Unity.ulf || exit 0
-      # - name: Download unitypackage
-      #   run: |
-      #     echo -n "${{ secrets.SSH_KEY }}" >> .ssh_key
-      #     ssh-keygen -R ${{ secrets.SSH_HOST }}
-      #     ssh-keyscan ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
-      #     scp -i .ssh_key -P ${{ secrets.SSH_PORT }} ${{ secrets.SSH_HOST_IP }}:~/${{ secrets.UNITYPACKAGE_FILEPATH }} ./
+      - name: Download unitypackage
+        run: |
+          echo -n "${{ secrets.SSH_KEY }}" >> .ssh_key
+          chmod 600 .ssh_key
+          scp -i .ssh_key -P ${{ secrets.SSH_PORT }} -o "StrictHostKeyChecking=no" ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:~/${{ secrets.UNITYPACKAGE_FILEPATH }} ./
       - name: Import unitypackage
-        run: /opt/unity/Editor/Unity -quit -batchmode -nographics -silent-crashes -projectPath . -importPackage ${{ secrets.UNITYPACKAGE_FILEPATH }} || exit 0
+        run: /opt/unity/Editor/Unity -quit -batchmode -nographics -silent-crashes -projectPath . -importPackage ${{ secrets.UNITYPACKAGE_FILEPATH }}
       - uses: game-ci/unity-builder@v2
         env:
           UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
