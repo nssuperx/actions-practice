@@ -7,6 +7,8 @@ github actionsの練習
 1. self host runner つかってみる。
 1. gameCI つかってみる。
     1. ライセンスのアクティベーション
+1. scp使って、OCIにたてたインスタンスからファイルをコピーしてくる(unitypackage)
+1. unity cliを使ってunitypackageをインポート
 
 [![Test project](https://github.com/nssuperx/actions-practice/actions/workflows/gameci-main.yml/badge.svg)](https://github.com/nssuperx/actions-practice/actions/workflows/gameci-main.yml)
 
