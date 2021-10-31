@@ -37,14 +37,9 @@ jobs:
           path: Library
           key: Library-${{ matrix.targetPlatform }}-${{ env.cache-version }}
           restore-keys: Library-
-      - run: /opt/unity/Editor/Unity -quit -batchmode -nographics -logFile -createManualActivationFile || exit 0
-      - uses: actions/upload-artifact@v1
-        with:
-          name: Unity_v${{ matrix.unity }}.alf
-          path: ./Unity_v${{ matrix.unity }}.alf
-      - run: echo -n "$UNITY_LICENSE_2" >> .Unity.ulf
+      - run: echo -n "$UNITY_LICENSE" >> .Unity.ulf
         env:
-          UNITY_LICENSE_2: ${{ secrets.UNITY_LICENSE_2 }}
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
       - name: activate unity license
         run: /opt/unity/Editor/Unity -quit -batchmode -nographics -silent-crashes -logFile -manualLicenseFile .Unity.ulf || exit 0
       - name: Download unitypackage
@@ -52,11 +47,11 @@ jobs:
           echo -n "${{ secrets.SSH_KEY }}" >> .ssh_key
           chmod 600 .ssh_key
           scp -i .ssh_key -P ${{ secrets.SSH_PORT }} -o "StrictHostKeyChecking=no" ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:~/${{ secrets.UNITYPACKAGE_FILEPATH }} ./
-          echo `ls`
+          ls
       - name: Import unitypackage
         run: /opt/unity/Editor/Unity -quit -batchmode -nographics -silent-crashes -projectPath . -importPackage ${{ secrets.UNITYPACKAGE_FILEPATH }}
       - name: Import Test
-        run: echo `ls Assets/Prefabs`
+        run: ls Assets/Prefabs
       - name: Build
         run: /opt/unity/Editor/Unity -quit -batchmode -nographics -silent-crashes -projectPath . -executeMethod MyEditorScript.PerformBuild
       - uses: actions/upload-artifact@v2

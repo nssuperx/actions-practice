@@ -1,0 +1,22 @@
+name: Acquire activation file
+on:
+  workflow_dispatch: {}
+jobs:
+  activation:
+    name: Request manual activation file
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        unity: 
+          - 2021.1.22f1
+    container:
+      image: unityci/editor:ubuntu-${{ matrix.unity }}-webgl-0.15.0
+    steps:
+      - name: Request manual activation file
+        run: /opt/unity/Editor/Unity -quit -batchmode -nographics -logFile -createManualActivationFile || exit 0
+      - name: Expose as artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: Unity_v${{ matrix.unity }}.alf
+          path: ./Unity_v${{ matrix.unity }}.alf
