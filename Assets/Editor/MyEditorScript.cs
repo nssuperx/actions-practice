@@ -27,6 +27,10 @@ class MyEditorScript
         if (summary.result == BuildResult.Succeeded)
         {
             Debug.Log("Build succeeded: " + summary.totalSize + " bytes");
+            Debug.Log("Loaded scene:" + scenePaths.Count);
+            foreach(string scenePath in scenePaths){
+                Debug.Log(scenePath);
+            }
         }else if(summary.result == BuildResult.Failed){
             Debug.Log("Build failed");
         }
