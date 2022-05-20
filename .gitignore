@@ -61,4 +61,8 @@ crashlytics-build.properties
 # macOS
 .DS_Store
 
+# external assets
 Assets/Prefabs
+
+# User Settings ??
+*.dwlt

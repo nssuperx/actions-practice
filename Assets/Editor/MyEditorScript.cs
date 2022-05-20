@@ -19,9 +19,10 @@ class MyEditorScript
         BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
         buildPlayerOptions.scenes = scenePaths.ToArray();
         buildPlayerOptions.locationPathName = "WebGLBuild";
+        buildPlayerOptions.targetGroup = BuildTargetGroup.WebGL;
         buildPlayerOptions.target = BuildTarget.WebGL;
-        buildPlayerOptions.options = BuildOptions.None; // set whatever you want here
-        BuildReport report = BuildPipeline.BuildPlayer(buildPlayerOptions);  // apply the setting changes
+        buildPlayerOptions.options = BuildOptions.StrictMode;
+        BuildReport report = BuildPipeline.BuildPlayer(buildPlayerOptions);
         BuildSummary summary = report.summary;
 
         if (summary.result == BuildResult.Succeeded)
