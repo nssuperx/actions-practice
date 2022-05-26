@@ -1,9 +1,10 @@
-name: Build project (webgl)
+name: Build project (Windows-Mono)
 
 on: 
   push:
     branches:
       - main
+      - ci
 
 env:
   cache-version: v1.0
@@ -16,11 +17,12 @@ jobs:
       fail-fast: false
       matrix:
         targetPlatform:
-          - webgl
+          - windows
         unity: 
           - 2021.3.3f1
     container:
-      image: unityci/editor:ubuntu-${{ matrix.unity }}-${{ matrix.targetPlatform }}-1
+      # https://hub.docker.com/r/unityci/editor
+      image: unityci/editor:ubuntu-${{ matrix.unity }}-${{ matrix.targetPlatform }}-mono-1.0.1
     steps:
       - name: Setup Unity container
         run: |
@@ -53,13 +55,8 @@ jobs:
       - name: Import Test
         run: ls Assets/Prefabs
       - name: Build
-        run: /opt/unity/Editor/Unity -quit -batchmode -nographics -silent-crashes -projectPath . -executeMethod BuildClass.BuildWebGL
+        run: /opt/unity/Editor/Unity -quit -batchmode -nographics -silent-crashes -projectPath . -executeMethod BuildClass.WindowsBuild
       - uses: actions/upload-artifact@v2
         with:
           name: Build-${{ matrix.targetPlatform }}
           path: ./${{ matrix.targetPlatform }}Build
-      - name: Deploy to github pages
-        uses: JamesIves/github-pages-deploy-action@v4.3.3
-        with:
-          branch: gh-pages
-          folder: ./${{ matrix.targetPlatform }}Build

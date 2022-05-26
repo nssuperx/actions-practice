@@ -9,9 +9,9 @@ jobs:
       fail-fast: false
       matrix:
         unity: 
-          - 2021.1.22f1
+          - 2021.3.3f1
     container:
-      image: unityci/editor:ubuntu-${{ matrix.unity }}-webgl-0.15.0
+      image: unityci/editor:ubuntu-${{ matrix.unity }}-webgl-1.0.1
     steps:
       - name: Request manual activation file
         run: /opt/unity/Editor/Unity -quit -batchmode -nographics -logFile -createManualActivationFile || exit 0

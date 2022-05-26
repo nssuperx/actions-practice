@@ -1,9 +1,10 @@
-name: Build project (webgl)
+name: Build project self-host (Linux)
 
 on: 
   push:
     branches:
       - main
+      - ci
 
 env:
   cache-version: v1.0
@@ -11,23 +12,15 @@ env:
 jobs:
   buildForAllSupportedPlatforms:
     name: Build for ${{ matrix.targetPlatform }}
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     strategy:
       fail-fast: false
       matrix:
         targetPlatform:
-          - webgl
+          - Linux
         unity: 
           - 2021.3.3f1
-    container:
-      image: unityci/editor:ubuntu-${{ matrix.unity }}-${{ matrix.targetPlatform }}-1
     steps:
-      - name: Setup Unity container
-        run: |
-          apt update
-          apt install software-properties-common rsync -y
-          add-apt-repository ppa:git-core/ppa
-          apt install git -y
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
@@ -37,11 +30,8 @@ jobs:
           path: Library
           key: Library-${{ matrix.targetPlatform }}-${{ env.cache-version }}
           restore-keys: Library-
-      - run: echo -n "$UNITY_LICENSE" >> .Unity.ulf
-        env:
-          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
       - name: activate unity license
-        run: /opt/unity/Editor/Unity -quit -batchmode -nographics -silent-crashes -logFile -manualLicenseFile .Unity.ulf || exit 0
+        run: /opt/unity/Editor/Unity -quit -batchmode -nographics -silent-crashes -logFile -manualLicenseFile /opt/unity/Editor/Unity/Unity_v2021.x.ulf || exit 0
       - name: Download unitypackage
         run: |
           echo -n "${{ secrets.SSH_KEY }}" >> .ssh_key
@@ -53,13 +43,8 @@ jobs:
       - name: Import Test
         run: ls Assets/Prefabs
       - name: Build
-        run: /opt/unity/Editor/Unity -quit -batchmode -nographics -silent-crashes -projectPath . -executeMethod BuildClass.BuildWebGL
+        run: /opt/unity/Editor/Unity -quit -batchmode -nographics -silent-crashes -projectPath . -buildLinux64Player .
       - uses: actions/upload-artifact@v2
         with:
           name: Build-${{ matrix.targetPlatform }}
           path: ./${{ matrix.targetPlatform }}Build
-      - name: Deploy to github pages
-        uses: JamesIves/github-pages-deploy-action@v4.3.3
-        with:
-          branch: gh-pages
-          folder: ./${{ matrix.targetPlatform }}Build

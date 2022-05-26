@@ -61,8 +61,11 @@ crashlytics-build.properties
 # macOS
 .DS_Store
 
+# User Settings
+UserSettings
+
+# I'm not sure
+boot.config
+
 # external assets
 Assets/Prefabs
-
-# User Settings ??
-*.dwlt

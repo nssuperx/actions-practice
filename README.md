@@ -1,5 +1,6 @@
 # actions-practice
 [![Build project](https://github.com/nssuperx/actions-practice/actions/workflows/unity-build.yml/badge.svg)](https://github.com/nssuperx/actions-practice/actions/workflows/unity-build.yml)
+[![Build project](https://github.com/nssuperx/actions-practice/actions/workflows/unity-build-webgl.yml/badge.svg?branch=main)](https://github.com/nssuperx/actions-practice/actions/workflows/unity-build-webgl.yml)
 
 github actionsの練習
 
