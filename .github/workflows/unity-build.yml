@@ -55,7 +55,7 @@ jobs:
       - name: Import Test
         run: ls Assets/Prefabs
       - name: Build
-        run: /opt/unity/Editor/Unity -quit -batchmode -nographics -silent-crashes -projectPath . -executeMethod BuildClass.WindowsBuild
+        run: /opt/unity/Editor/Unity -quit -batchmode -nographics -silent-crashes -projectPath . -executeMethod BuildClass.BuildWindowsMono
       - uses: actions/upload-artifact@v2
         with:
           name: Build-${{ matrix.targetPlatform }}

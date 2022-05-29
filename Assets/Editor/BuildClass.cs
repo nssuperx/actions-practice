@@ -3,7 +3,7 @@ using UnityEditor;
 using UnityEditor.Build.Reporting;
 using UnityEngine;
 
-class MyEditorScript
+class BuildClass
 {
     static void BuildWebGL()
     {
@@ -18,7 +18,7 @@ class MyEditorScript
 
         BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
         buildPlayerOptions.scenes = scenePaths.ToArray();
-        buildPlayerOptions.locationPathName = "WebGLBuild";
+        buildPlayerOptions.locationPathName = "webglBuild";
         buildPlayerOptions.targetGroup = BuildTargetGroup.WebGL;
         buildPlayerOptions.target = BuildTarget.WebGL;
         buildPlayerOptions.options = BuildOptions.StrictMode;
@@ -50,7 +50,7 @@ class MyEditorScript
 
         BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
         buildPlayerOptions.scenes = scenePaths.ToArray();
-        buildPlayerOptions.locationPathName = "WindowsBuild";
+        buildPlayerOptions.locationPathName = "windowsBuild";
         buildPlayerOptions.targetGroup = BuildTargetGroup.Standalone;
         buildPlayerOptions.target = BuildTarget.StandaloneWindows64;
         buildPlayerOptions.options = BuildOptions.StrictMode;
